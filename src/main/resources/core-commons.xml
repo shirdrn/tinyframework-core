@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<configuration>
+	<property>
+		<name>commons.core.running.mode</name>
+		<value>0</value>
+		<description>
+			DEVP(0) : development environment running mode
+					After files are iterated, they can not be moved to 
+					directory 'completed'.
+			PROD(1) : production environment running mode
+					After files are iterated, they should be moved to 
+					directory 'completed' from directory 'waiting'.
+		</description>
+	</property>
+	<property>
+		<name>commons.core.files.suffix</name>
+		<value>.domain</value>
+		<description></description>
+	</property>
+	<property>
+		<name>commons.core.executor.pool.maximumPoolSize</name>
+		<value>5</value>
+		<description></description>
+	</property>
+	<property>
+		<name>commons.core.executor.pool.workQueueSize</name>
+		<value>5</value>
+		<description></description>
+	</property>
+</configuration>
