@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<configuration>
+	<property>
+		<name>core.job.running.mode</name>
+		<value>0</value>
+		<description>
+			DEVELOPMENT(0) : development environment running mode
+					After files are iterated, they can not be moved to 
+					directory 'completed'.
+			PRODUCTION(1) : production environment running mode
+					After files are iterated, they should be moved to 
+					directory 'completed' from directory 'waiting'.
+		</description>
+	</property>
+
+</configuration>

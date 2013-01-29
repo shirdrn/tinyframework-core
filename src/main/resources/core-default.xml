@@ -5,24 +5,29 @@
 	
 	<!-- core framework configurations -->
 	<property>
-		<name>commons.core.configuration.dir.name</name>
+		<name>core.job.configuration.dir.name</name>
 		<value>conf</value>
 		<description></description>
 	</property>
 	<property>
-		<name>commons.core.running.mode</name>
+		<name>core.job.running.mode</name>
 		<value>1</value>
 		<description>
-			DEVP(0) : development environment running mode
+			DEVELOPMENT(0) : development environment running mode
 					After files are iterated, they can not be moved to 
 					directory 'completed'.
-			PROD(1) : production environment running mode
+			PRODUCTION(1) : production environment running mode
 					After files are iterated, they should be moved to 
 					directory 'completed' from directory 'waiting'.
 		</description>
 	</property>
 	<property>
-		<name>commons.core.task.classes</name>
+		<name>core.job.runner.class</name>
+		<value>org.shirdrn.tinyframework.core.job.files.FileLineTinyJobRunner</value>
+		<description></description>
+	</property>
+	<property>
+		<name>core.job.task.classes</name>
 		<value></value>
 		<description>
 		For example:
@@ -39,64 +44,64 @@
 	
 	<!-- basic component configurations -->
 	<property>
-		<name>commons.core.files.waiting.dir</name>
+		<name>core.job.files.waiting.dir</name>
 		<value>waiting</value>
 		<description></description>
 	</property>
 	<property>
-		<name>commons.core.files.completed.dir</name>
+		<name>core.job.files.completed.dir</name>
 		<value>completed</value>
 		<description></description>
 	</property>
 	<property>
-		<name>commons.core.files.suffix</name>
+		<name>core.job.files.suffix</name>
 		<value></value>
 		<description></description>
 	</property>
 	<property>
-		<name>commons.core.files.charset</name>
+		<name>core.job.files.charset</name>
 		<value>utf-8</value>
 		<description></description>
 	</property>
 	
-	<!-- thread pool configurations -->
+	<!-- executor configurations -->
 	<property>
-		<name>commons.core.executor.manager.class</name>
-		<value>org.shirdrn.tinyframework.commons.core.executor.SinglePoolTinyExecutorManager</value>
+		<name>core.job.executor.manager.class</name>
+		<value>org.shirdrn.tinyframework.core.executor.SinglePoolTinyExecutorManager</value>
 		<description></description>
 	</property>
 	<property>
-		<name>commons.core.executor.thread.factory.class</name>
-		<value>org.shirdrn.tinyframework.commons.core.executor.DefaultThreadFactory</value>
+		<name>core.job.executor.thread.factory.class</name>
+		<value>org.shirdrn.tinyframework.core.executor.DefaultThreadFactory</value>
 		<description></description>
 	</property>
 	<property>
-		<name>commons.core.executor.rejected.execution.handler.class</name>
-		<value>org.shirdrn.tinyframework.commons.core.executor.CallerScheduleIdleWorkerPolicy</value>
+		<name>core.job.executor.rejected.execution.handler.class</name>
+		<value>org.shirdrn.tinyframework.core.executor.CallerScheduleIdleWorkerPolicy</value>
 		<description></description>
 	</property>
 	<property>
-		<name>commons.core.executor.pool.corePoolSize</name>
+		<name>core.job.executor.pool.corePoolSize</name>
 		<value>1</value>
 		<description></description>
 	</property>
 	<property>
-		<name>commons.core.executor.pool.maximumPoolSize</name>
+		<name>core.job.executor.pool.maximumPoolSize</name>
 		<value>1</value>
 		<description></description>
 	</property>
 	<property>
-		<name>commons.core.executor.pool.keepAliveTime</name>
+		<name>core.job.executor.pool.keepAliveTime</name>
 		<value>120000</value>
 		<description></description>
 	</property>
 	<property>
-		<name>commons.core.executor.pool.workQueueSize</name>
+		<name>core.job.executor.pool.workQueueSize</name>
 		<value>5</value>
 		<description></description>
 	</property>
 	<property>
-		<name>commons.core.executor.pool.checkIdleWorkerInterval</name>
+		<name>core.job.executor.pool.checkIdleWorkerInterval</name>
 		<value>1000</value>
 		<description></description>
 	</property>
