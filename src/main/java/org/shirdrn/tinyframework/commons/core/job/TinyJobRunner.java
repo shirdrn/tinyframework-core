@@ -12,9 +12,10 @@ import org.apache.commons.logging.LogFactory;
 import org.shirdrn.tinyframework.commons.core.HookService;
 import org.shirdrn.tinyframework.commons.core.SequenceGenerator;
 import org.shirdrn.tinyframework.commons.core.SequenceGeneratorFactory;
-import org.shirdrn.tinyframework.commons.core.conf.Configured;
-import org.shirdrn.tinyframework.commons.core.conf.ReadableContext;
+import org.shirdrn.tinyframework.commons.core.conf.Configurable;
+import org.shirdrn.tinyframework.commons.core.conf.JobConf;
 import org.shirdrn.tinyframework.commons.core.conf.TaskConf;
+import org.shirdrn.tinyframework.commons.core.constants.RunningMode;
 import org.shirdrn.tinyframework.commons.core.counter.DefaultTinyCounter;
 import org.shirdrn.tinyframework.commons.core.counter.TinyCounter;
 import org.shirdrn.tinyframework.commons.core.executor.SinglePoolReadable;
@@ -30,13 +31,14 @@ import org.shirdrn.tinyframework.commons.core.utils.ObjectFactory;
  * 
  * @author Yanjun
  */
-public abstract class TinyJobRunner<T extends TinyTask> extends Configured
-		implements HookService, TinyRunner<T> {
+public abstract class TinyJobRunner<T extends TinyTask> implements Configurable, HookService, TinyJob<T>, TinyRunner<T> {
 
 	private static final Log LOG = LogFactory.getLog(TinyJobRunner.class);
 	private volatile boolean doneIterate = false;
-	protected final ReadableContext readableContext;
+	private final Object releaseLock = new Object();
 	
+	protected final RunningMode runningMode;
+	protected final JobConf jobConf;
 	protected SequenceGenerator sequenceGenerator;
 	protected final TinyCounter counter = new DefaultTinyCounter();
 	protected TinyExecutorManager<SinglePoolReadable> executorManager;
@@ -45,19 +47,20 @@ public abstract class TinyJobRunner<T extends TinyTask> extends Configured
 	protected final LinkedHashMap<Class<T>, String> taskMappings = new LinkedHashMap<Class<T>, String>();
 	protected final Map<Class<T>, List<RunningTask<T>>> taskInstances = new HashMap<Class<T>, List<RunningTask<T>>>();
 	
-	private final Object releaseLock = new Object();
 	
-	public TinyJobRunner(ReadableContext readableContext) {
+	public TinyJobRunner(JobConf jobConf) {
 		super();
-		this.readableContext = readableContext;
+		this.jobConf = jobConf;
+		runningMode = RunningMode.valueOf(
+				jobConf.getContext().getInt("commons.core.running.mode", RunningMode.PROD.getCode()));
+		LOG.info("Job running mode;mode=" + runningMode);
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public void setReadableContext(ReadableContext readableContext) {
-		super.setReadableContext(readableContext);
+	public void configure() {
 		// configure tiny executor manager
-		String tinyExecutorManagerClassName = readableContext.get(
+		String tinyExecutorManagerClassName = jobConf.getContext().get(
 				"commons.core.executor.manager.class", 
 				"org.shirdrn.tinyframework.commons.core.executor.SinglePoolTinyExecutorManager");
 		executorManager = (TinyExecutorManager<SinglePoolReadable>) 
@@ -66,14 +69,14 @@ public abstract class TinyJobRunner<T extends TinyTask> extends Configured
 		// create a sequence generator
 		SequenceGeneratorFactory.createFor(this);
 		sequenceGenerator = SequenceGeneratorFactory.getSequenceGenerator(this);
-				
+		
 		// Add shutdown hook to output statistics information, whatever
 		// this program exits JVM by any means
 		Thread hook = new HookThread();
 		hook.setName("SHUTDOWN-HOOK");
 		Runtime.getRuntime().addShutdownHook(hook);
 	}
-	
+
 	@Override
 	public void hook() {
 		// Output counter and statistics information before JVM exits.
@@ -103,11 +106,7 @@ public abstract class TinyJobRunner<T extends TinyTask> extends Configured
 		return doneIterate;
 	}
 	
-	/**
-	 * Register {@link T extends TinyTask} classes by repeatedly invoking this method.
-	 * @param taskId
-	 * @param taskClass
-	 */
+	@Override
 	public synchronized void registerTask(String taskId, Class<T> taskClass) {
 		if(!taskClasses.containsValue(taskClass)) {
 			LOG.debug("Register tiny task;taskClass=" + taskClass.getName());
@@ -134,7 +133,6 @@ public abstract class TinyJobRunner<T extends TinyTask> extends Configured
 				}
 				fireTaskGroupHolder(name, taskConf);				
 			}
-			
 		});
 	}
 	
@@ -258,12 +256,24 @@ public abstract class TinyJobRunner<T extends TinyTask> extends Configured
 		}
 	}
 
+	@Override
+	public RunningMode getRunningMode() {
+		return this.runningMode;
+	}
+	
+	@Override
+	public JobConf getJobConf() {
+		return jobConf;
+	}
+	
+	@Override
 	public LinkedHashMap<String, Class<T>> getTaskClasses() {
 		return taskClasses;
 	}
-
-	public LinkedHashMap<Class<T>, String> getTaskMappings() {
-		return taskMappings;
+	
+	@Override
+	public String getTaskId(Class<T> taskClass) {
+		return taskMappings.get(taskClass);
 	}
 
 	public Map<Class<T>, List<RunningTask<T>>> getTaskInstances() {

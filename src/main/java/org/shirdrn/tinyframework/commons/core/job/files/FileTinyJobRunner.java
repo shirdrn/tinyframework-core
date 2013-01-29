@@ -10,7 +10,7 @@ import java.nio.charset.Charset;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.shirdrn.tinyframework.commons.core.conf.ReadableContext;
+import org.shirdrn.tinyframework.commons.core.conf.JobConf;
 import org.shirdrn.tinyframework.commons.core.constants.RunningMode;
 import org.shirdrn.tinyframework.commons.core.job.TinyJobRunner;
 import org.shirdrn.tinyframework.commons.core.job.TinyTask;
@@ -24,32 +24,32 @@ public abstract class FileTinyJobRunner extends TinyJobRunner<TinyTask>
 	protected String suffix;
 	protected String charSet = Charset.defaultCharset().toString();
 	
-	public FileTinyJobRunner(ReadableContext readableContext) {
-		super(readableContext);
+	public FileTinyJobRunner(JobConf jobConf) {
+		super(jobConf);
 	}
 	
 	@Override
-	public void setReadableContext(ReadableContext readableContext) {
-		super.setReadableContext(readableContext);
+	public void configure() {
+		super.configure();
 		// configure waiting directory
-		String waitingPath = readableContext.get("commons.core.files.waiting.dir");
+		String waitingPath = jobConf.getContext().get("commons.core.files.waiting.dir");
 		waitingDir = new File(waitingPath);
 		if(!waitingDir.exists()) {
 			throw new RuntimeException("Waiting directory doesn't exist: " + waitingPath);
 		}
 		LOG.info("Waiting directory;dir=" + waitingDir.getAbsolutePath());
 		// configure completed directory
-		String completedPath = readableContext.get("commons.core.files.completed.dir");
+		String completedPath = jobConf.getContext().get("commons.core.files.completed.dir");
 		completedDir = new File(completedPath);
 		if(!completedDir.exists()) {
 			completedDir.mkdirs();
 		}
 		LOG.info("Completed directory;dir=" + completedDir.getAbsolutePath());
 		// configure file suffix
-		suffix = readableContext.get("commons.core.files.suffix");
+		suffix = jobConf.getContext().get("commons.core.files.suffix");
 		LOG.info("File suffix name;suffix=" + suffix);
 		// configure file charset
-		String encoding = readableContext.get("commons.core.files.charset");
+		String encoding = jobConf.getContext().get("commons.core.files.charset");
 		if(encoding!=null) {
 			charSet = encoding;
 			LOG.info("File encoding;charSet=" + charSet);
@@ -89,15 +89,11 @@ public abstract class FileTinyJobRunner extends TinyJobRunner<TinyTask>
 					}
 					
 					// move to completed directory?
-					RunningMode mode = RunningMode.valueOf(
-							readableContext.getInt("commons.core.running.mode", RunningMode.PROD.getCode()));
-					if(mode == RunningMode.PROD && isOk) {
-						LOG.info("Job running mode;mode=" + mode);
+					if(runningMode == RunningMode.PROD && isOk) {
 						File completedFile = new File(completedDir, file.getName());
 						file.renameTo(completedFile);
 						LOG.info("Move file;action=RENAME" + ",src=" + file + ",dst=" + completedFile);
 					} else {
-						LOG.info("Job running mode;mode=" + mode);
 						File completedFile = new File(completedDir, file.getName());
 						LOG.info("Move file;action=IGNORE" + ",src=" + file + ",dst=" + completedFile);
 					}

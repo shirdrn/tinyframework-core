@@ -1,12 +1,11 @@
 package org.shirdrn.tinyframework.commons.core.job.database;
 
-import org.shirdrn.tinyframework.commons.core.conf.ReadableContext;
-import org.shirdrn.tinyframework.commons.core.job.database.DatabaseRecordJobRunner;
+import org.shirdrn.tinyframework.commons.core.conf.JobConf;
 
 public class MyDatabaseRecordJobRunner extends DatabaseRecordJobRunner<MyPo, MyQueryService> {
 
-	public MyDatabaseRecordJobRunner(ReadableContext readableContext) {
-		super(readableContext);
+	public MyDatabaseRecordJobRunner(JobConf jobConf) {
+		super(jobConf);
 		// TODO Auto-generated constructor stub
 	}
 

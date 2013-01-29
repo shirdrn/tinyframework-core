@@ -6,21 +6,26 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.shirdrn.tinyframework.commons.core.conf.ReadableContext;
+import org.shirdrn.tinyframework.commons.core.conf.JobConf;
 import org.shirdrn.tinyframework.commons.core.job.TinyJobRunner;
 import org.shirdrn.tinyframework.commons.core.job.TinyTask;
 
 public abstract class DatabaseRecordJobRunner<P, S extends QueryService<P>> 
 		extends TinyJobRunner<TinyTask> implements RecordService<P> {
 
-	public DatabaseRecordJobRunner(ReadableContext readableContext) {
-		super(readableContext);
-	}
-
 	private static final Log LOG = LogFactory.getLog(DatabaseRecordJobRunner.class);
 	protected S queryService;
 	protected Map<String, ?> conditions;
 	
+	public DatabaseRecordJobRunner(JobConf jobConf) {
+		super(jobConf);
+	}
+	
+	@Override
+	public void configure() {
+		super.configure();
+		this.conditions = new HashMap<String, Object>();
+	}
 	
 	@Override
 	protected void iterate() {
@@ -32,12 +37,6 @@ public abstract class DatabaseRecordJobRunner<P, S extends QueryService<P>>
 				LOG.error("Error to read record;record=" + persistObject, e);
 			}
 		}
-	}
-
-	@Override
-	public void setReadableContext(ReadableContext readableContext) {
-		super.setReadableContext(readableContext);
-		this.conditions = new HashMap<String, Object>();
 	}
 
 }

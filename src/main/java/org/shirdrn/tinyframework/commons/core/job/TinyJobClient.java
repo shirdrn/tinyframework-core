@@ -5,8 +5,7 @@ import java.text.DecimalFormat;
 import org.apache.log4j.Logger;
 import org.shirdrn.tinyframework.commons.core.conf.Configurable;
 import org.shirdrn.tinyframework.commons.core.conf.Context;
-import org.shirdrn.tinyframework.commons.core.conf.ReadableContext;
-import org.shirdrn.tinyframework.commons.core.conf.TaskConf;
+import org.shirdrn.tinyframework.commons.core.conf.JobConf;
 import org.shirdrn.tinyframework.commons.core.utils.ObjectFactory;
 
 public abstract class TinyJobClient<R extends TinyJobRunner<TinyTask>> implements Configurable {
@@ -14,25 +13,22 @@ public abstract class TinyJobClient<R extends TinyJobRunner<TinyTask>> implement
 	private static final Logger LOG = Logger.getLogger(TinyJobClient.class);
 	protected static final DecimalFormat FORMATTER = new DecimalFormat("00");
 	protected final R tinyJobRunner;
-	protected final ReadableContext readableContext;
+	protected final JobConf jobConf;
 	
 	public TinyJobClient(Class<R> tinyJobRunnerClass) {
 		super();
 		// create global context instance
-		readableContext = TaskConf.getReadOnlyContext();
-		((Context) readableContext).addResource("core-default.xml");
-		((Context) readableContext).addResource("core-commons.xml");
+		jobConf = new JobConf();
+		((Context) jobConf.getContext()).addResource("core-default.xml");
+		((Context) jobConf.getContext()).addResource("core-commons.xml");
 		
-		tinyJobRunner = ObjectFactory.getInstance(tinyJobRunnerClass, readableContext);
+		tinyJobRunner = ObjectFactory.getInstance(tinyJobRunnerClass, jobConf);
 		LOG.info("Load job runner class: " + tinyJobRunnerClass.getName());
 	}
 	
 	@Override
 	public void configure() {
-		// configure tiny job runner
-		tinyJobRunner.setReadableContext(readableContext);
-		
-		String classes = readableContext.get("commons.core.task.classes", "");
+		String classes = jobConf.getContext().get("commons.core.task.classes", "");
 		LOG.info("Read configured task classes;classes=" + classes.trim());
 		if(classes!=null) {
 			int id = 0;
@@ -52,8 +48,8 @@ public abstract class TinyJobClient<R extends TinyJobRunner<TinyTask>> implement
 		tinyJobRunner.startRunner();
 	}
 
-	public ReadableContext getReadableContext() {
-		return readableContext;
+	public JobConf getJobConf() {
+		return jobConf;
 	}
 
 }

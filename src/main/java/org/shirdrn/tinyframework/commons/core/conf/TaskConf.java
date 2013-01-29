@@ -1,11 +1,10 @@
 package org.shirdrn.tinyframework.commons.core.conf;
 
-import org.shirdrn.tinyframework.commons.core.job.TinyTask;
 
 /**
  * Application configuration object, which contains 2 kinds:
  * <ol>
- * <li>{@link ReadableContext}:  global configuration, read only.</li>
+ * <li>{@link ReadableContext}:  global configuration, held by {@link JobConf} instance.</li>
  * <li>{@link WriteableContext}: local or temporary configuration.</li>
  * </ol>
  * 
@@ -13,10 +12,7 @@ import org.shirdrn.tinyframework.commons.core.job.TinyTask;
  */
 public class TaskConf extends Configured implements Cloneable {
 
-	private static final ReadableContext readOnlyContext;
-	static {
-		readOnlyContext = new Context(false);
-	}
+	private final JobConf jobConf;
 	
 	public TaskConf() {
 		this(new Context(false));
@@ -24,26 +20,20 @@ public class TaskConf extends Configured implements Cloneable {
 	
 	protected TaskConf(WriteableContext writeableContext) {
 		super();
-		this.readableContext = readOnlyContext;
+		this.jobConf = new JobConf();
 		this.writeableContext = writeableContext;
 	}
 	
-	/**
-	 * Get read only context instance. Actually return the
-	 * Unique {@link ReadableContext} instance shared by each
-	 * {@link TinyTask} instance.
-	 * @return
-	 */
-	public static final ReadableContext getReadOnlyContext() {
-		return readOnlyContext;
+	public JobConf getJobConf() {
+		return jobConf;
 	}
 	
 	/**
 	 * Add a xml resource to a <code>readOnlyContext</code> context objecg.
 	 * @param name
 	 */
-	public static final void addResource(String name) {
-		((Context)readOnlyContext).addResource(name);
+	public final void addResource(String name) {
+		((Context)writeableContext).addResource(name);
 	}
 	
 }

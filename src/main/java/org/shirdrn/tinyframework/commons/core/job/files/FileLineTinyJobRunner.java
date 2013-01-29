@@ -2,16 +2,15 @@ package org.shirdrn.tinyframework.commons.core.job.files;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.shirdrn.tinyframework.commons.core.conf.ReadableContext;
+import org.shirdrn.tinyframework.commons.core.conf.JobConf;
 import org.shirdrn.tinyframework.commons.core.conf.TaskConf;
 import org.shirdrn.tinyframework.commons.core.constants.KeyName;
 import org.shirdrn.tinyframework.commons.core.job.TinyTaskException;
 
-
 public class FileLineTinyJobRunner extends FileTinyJobRunner {
 
-	public FileLineTinyJobRunner(ReadableContext readableContext) {
-		super(readableContext);
+	public FileLineTinyJobRunner(JobConf jobConf) {
+		super(jobConf);
 	}
 
 	private static final Log LOG = LogFactory.getLog(FileLineTinyJobRunner.class);

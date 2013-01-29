@@ -6,15 +6,15 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.shirdrn.tinyframework.commons.core.conf.ReadableContext;
+import org.shirdrn.tinyframework.commons.core.conf.JobConf;
 import org.shirdrn.tinyframework.commons.core.job.TinyJobRunner;
 import org.shirdrn.tinyframework.commons.core.job.TinyTask;
 
 public abstract class DatabaseBatchRecordsTinyJobRunner<P, S extends BatchQueryService<P>> 
 		extends TinyJobRunner<TinyTask> implements RecordService<P> {
 
-	public DatabaseBatchRecordsTinyJobRunner(ReadableContext readableContext) {
-		super(readableContext);
+	public DatabaseBatchRecordsTinyJobRunner(JobConf jobConf) {
+		super(jobConf);
 	}
 
 	private static final Log LOG = LogFactory.getLog(DatabaseBatchRecordsTinyJobRunner.class);
@@ -24,8 +24,8 @@ public abstract class DatabaseBatchRecordsTinyJobRunner<P, S extends BatchQueryS
 	protected Map<String, ?> conditions;
 	
 	@Override
-	public void setReadableContext(ReadableContext readableContext) {
-		super.setReadableContext(readableContext);
+	public void configure() {
+		super.configure();
 		this.conditions = new HashMap<String, Object>();
 	}
 	

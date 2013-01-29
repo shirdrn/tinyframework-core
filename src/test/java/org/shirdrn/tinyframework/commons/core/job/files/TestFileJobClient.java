@@ -11,14 +11,14 @@ public class TestFileJobClient {
 	@Test
 	public void start() {
 		FileTinyJobClient jobClient = new FileTinyJobClient(FileLineTinyJobRunner.class);
-		WriteableContext context = (WriteableContext) jobClient.getReadableContext();
+		WriteableContext context = (WriteableContext) jobClient.getJobConf().getContext();
 		context.set("commons.core.task.classes", 
 				"org.shirdrn.tinyframework.commons.core.job.files.PrintFileLineTask," +
-				"org.shirdrn.tinyframework.core.job.files.AnotherPrintFileLineTask"
+				"org.shirdrn.tinyframework.commons.core.job.files.AnotherPrintFileLineTask"
 		);
 		context.set("commons.core.files.waiting.dir", 
-				"waiting");
-		context.set("commons.core.files.suffix", ".java");
+				"/home/shirdrn/programs/eclipse-jee-juno/workspace/tinyframework-core/src/test/resources/org/shirdrn/tinyframework/commons/core/job/files");
+		context.set("commons.core.files.suffix", ".txt");
 		jobClient.configure();
 		jobClient.start();
 	}

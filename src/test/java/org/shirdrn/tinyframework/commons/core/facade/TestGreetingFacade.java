@@ -26,7 +26,6 @@ public class TestGreetingFacade {
 		try {
 			TinyFacadeFactory.register(f, SayingBadWordsFacade.class);
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertEquals(true, e instanceof TinyFacadeException);
 		}
 	}
@@ -39,7 +38,6 @@ public class TestGreetingFacade {
 		try {
 			TinyFacadeFactory.register(f2, GreetingFacade.class);
 		} catch (Exception e) {
-			e.printStackTrace();
 			assertEquals(true, e instanceof TinyFacadeException);
 		}
 	}
