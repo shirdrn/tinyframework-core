@@ -13,15 +13,20 @@ package org.shirdrn.tinyframework.core.conf;
 public class TaskConf extends Configured implements Cloneable {
 
 	private final JobConf jobConf;
+	private final WriteableContext context;
 	
 	public TaskConf() {
 		this(new Context(false));
 	}
 	
-	protected TaskConf(WriteableContext writeableContext) {
+	protected TaskConf(WriteableContext context) {
 		super();
 		this.jobConf = new JobConf();
-		this.writeableContext = writeableContext;
+		this.context = context;
+	}
+	
+	public WriteableContext getContext() {
+		return context;
 	}
 	
 	public JobConf getJobConf() {
@@ -33,7 +38,7 @@ public class TaskConf extends Configured implements Cloneable {
 	 * @param name
 	 */
 	public final void addResource(String name) {
-		((Context)writeableContext).addResource(name);
+		((Context)context).addResource(name);
 	}
-	
+
 }

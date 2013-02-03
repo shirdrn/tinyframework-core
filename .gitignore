@@ -4,3 +4,7 @@
 *.jar
 *.war
 *.ear
+src/test/java
+src/test/resources
+src/main/java
+src/main/resources

@@ -5,99 +5,23 @@
 	
 	<!-- core framework configurations -->
 	<property>
-		<name>commons.core.configuration.dir.name</name>
-		<value>conf</value>
-		<description></description>
-	</property>
-	<property>
-		<name>commons.core.running.mode</name>
+		<name>tiny.core.job.runner.mode</name>
 		<value>1</value>
 		<description>
-			DEVP(0) : development environment running mode
-					After files are iterated, they can not be moved to 
-					directory 'completed'.
-			PROD(1) : production environment running mode
-					After files are iterated, they should be moved to 
-					directory 'completed' from directory 'waiting'.
+			DEVELOPMENT(0) : development environment running mode
+			PRODUCTION(1)  : production environment running mode
 		</description>
 	</property>
 	<property>
-		<name>commons.core.task.classes</name>
-		<value></value>
+		<name>tiny.core.job.runner.class</name>
+		<value>org.shirdrn.tinyframework.core.DefaultTinyJobRunner</value>
 		<description>
-		For example:
-			org.shirdrn.tinyframework.example.tasks.DomainFilterTask,
-			org.shirdrn.tinyframework.example.tasks.HomePageCrawlTask,
-			org.shirdrn.tinyframework.example.tasks.KeywordsCollectionTask,
-			org.shirdrn.tinyframework.example.tasks.KeywordsSplittingTask,
-			org.shirdrn.tinyframework.example.tasks.PSCCTagsCollectionTask,
-			org.shirdrn.tinyframework.example.tasks.PPDCTagsCollectionTask,
-			org.shirdrn.tinyframework.example.tasks.TrafficRankCollectionTask,
-			org.shirdrn.tinyframework.example.tasks.PotentialClientDecisionTask
+			
 		</description>
 	</property>
-	
-	<!-- basic component configurations -->
 	<property>
-		<name>commons.core.files.waiting.dir</name>
-		<value>waiting</value>
-		<description></description>
-	</property>
-	<property>
-		<name>commons.core.files.completed.dir</name>
-		<value>completed</value>
-		<description></description>
-	</property>
-	<property>
-		<name>commons.core.files.suffix</name>
-		<value></value>
-		<description></description>
-	</property>
-	<property>
-		<name>commons.core.files.charset</name>
-		<value>utf-8</value>
-		<description></description>
-	</property>
-	
-	<!-- thread pool configurations -->
-	<property>
-		<name>commons.core.executor.manager.class</name>
-		<value>org.shirdrn.tinyframework.commons.core.executor.SinglePoolTinyExecutorManager</value>
-		<description></description>
-	</property>
-	<property>
-		<name>commons.core.executor.thread.factory.class</name>
-		<value>org.shirdrn.tinyframework.commons.core.executor.DefaultThreadFactory</value>
-		<description></description>
-	</property>
-	<property>
-		<name>commons.core.executor.rejected.execution.handler.class</name>
-		<value>org.shirdrn.tinyframework.commons.core.executor.CallerScheduleIdleWorkerPolicy</value>
-		<description></description>
-	</property>
-	<property>
-		<name>commons.core.executor.pool.corePoolSize</name>
-		<value>1</value>
-		<description></description>
-	</property>
-	<property>
-		<name>commons.core.executor.pool.maximumPoolSize</name>
-		<value>1</value>
-		<description></description>
-	</property>
-	<property>
-		<name>commons.core.executor.pool.keepAliveTime</name>
-		<value>120000</value>
-		<description></description>
-	</property>
-	<property>
-		<name>commons.core.executor.pool.workQueueSize</name>
-		<value>5</value>
-		<description></description>
-	</property>
-	<property>
-		<name>commons.core.executor.pool.checkIdleWorkerInterval</name>
-		<value>1000</value>
+		<name>tiny.core.job.runner.class</name>
+		<value>org.shirdrn.tinyframework.core.job.files.FileLineTinyJobRunner</value>
 		<description></description>
 	</property>
 	

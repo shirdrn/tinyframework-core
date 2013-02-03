@@ -1,9 +1,11 @@
 package org.shirdrn.tinyframework.core.conf;
 
-import org.shirdrn.tinyframework.core.job.TinyTask;
+import org.shirdrn.tinyframework.core.TinyJob;
+import org.shirdrn.tinyframework.core.TinyTask;
 
 public class JobConf {
 
+	private TinyJob<? extends TinyTask> tinyJob;
 	private final ReadableContext context;
 	private static final ReadableContext readOnlyContext;
 	
@@ -12,7 +14,12 @@ public class JobConf {
 	}
 	
 	public JobConf() {
+		this(null);
+	}
+
+	public JobConf(TinyJob<? extends TinyTask> tinyJob) {
 		super();
+		this.tinyJob = tinyJob;
 		this.context = readOnlyContext;
 	}
 
@@ -44,6 +51,14 @@ public class JobConf {
 	 */
 	public static final void addResource(String name) {
 		((Context)readOnlyContext).addResource(name);
+	}
+
+	public TinyJob<? extends TinyTask> getTinyJob() {
+		return tinyJob;
+	}
+
+	public void setTinyJob(TinyJob<? extends TinyTask> tinyJob) {
+		this.tinyJob = tinyJob;
 	}
 
 }

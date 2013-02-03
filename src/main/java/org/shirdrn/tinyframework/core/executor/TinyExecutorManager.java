@@ -1,15 +1,13 @@
 package org.shirdrn.tinyframework.core.executor;
 
-import java.util.concurrent.ExecutorService;
+import org.shirdrn.tinyframework.core.Job;
+import org.shirdrn.tinyframework.core.Task;
 
-import org.shirdrn.tinyframework.core.conf.Configured;
 
-public abstract class TinyExecutorManager<R> extends Configured {
+public interface TinyExecutorManager<P> {
 
-	public abstract void createExecutor();
+	void registerExecutor(final Job<? extends Task> tinyJob, TinyExecutor<P> tinyExecutor);
 	
-	public abstract ExecutorService getWorkerPool();
-	
-	public abstract R getReadableExecutorManager();
+	TinyExecutor<P> retrieve(final Job<? extends Task> tinyJob);
 
 }

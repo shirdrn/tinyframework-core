@@ -212,4 +212,14 @@ public class ObjectFactory {
 		return clazz;
 	}
 	
+	public static Object getClass(String className, ClassLoader classLoader) {
+		Object clazz = null;
+		try {
+			clazz = Class.forName(className, true, getClassLoader(classLoader));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return clazz;
+	}
+	
 }

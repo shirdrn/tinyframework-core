@@ -15,20 +15,13 @@ package org.shirdrn.tinyframework.core.conf;
  */
 public abstract class Configured {
 	
-	protected ReadableContext readableContext;
-	protected WriteableContext writeableContext;
+	protected JobConf jobConf;
 	
-	public ReadableContext getReadableContext() {
-		return readableContext;
+	public JobConf getJobConf() {
+		return jobConf;
 	}
-	public void setReadableContext(final ReadableContext readableContext) {
-		this.readableContext = readableContext;
-	}
-	public WriteableContext getWriteableContext() {
-		return writeableContext;
-	}
-	public void setWriteableContext(WriteableContext writeableContext) {
-		this.writeableContext = writeableContext;
+	public void setJobConf(final JobConf jobConf) {
+		this.jobConf = jobConf;
 	}
 	
 }

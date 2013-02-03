@@ -6,7 +6,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.shirdrn.tinyframework.core.conf.Configured;
-import org.shirdrn.tinyframework.core.conf.ReadableContext;
+import org.shirdrn.tinyframework.core.conf.JobConf;
 
 
 /**
@@ -28,10 +28,10 @@ public class CallerScheduleIdleWorkerPolicy extends Configured implements Reject
     }
     
     @Override
-	public void setReadableContext(ReadableContext readableContext) {
-		super.setReadableContext(readableContext);
-		this.workQueueSize = readableContext.getInt("core.job.executor.pool.workQueueSize", 1);
-		this.checkIdleWorkerInterval = readableContext.getInt("core.job.executor.pool.checkIdleWorkerInterval", 1000);
+	public void setJobConf(JobConf jobConf) {
+		super.setJobConf(jobConf);
+		this.workQueueSize = jobConf.getContext().getInt("core.job.executor.pool.workQueueSize", 1);
+		this.checkIdleWorkerInterval = jobConf.getContext().getInt("core.job.executor.pool.checkIdleWorkerInterval", 1000);
 	}
 
 	/**
