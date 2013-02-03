@@ -8,3 +8,5 @@ src/test/java
 src/test/resources
 src/main/java
 src/main/resources
+src/test/resources/test-file-job.xml
+pom.xml

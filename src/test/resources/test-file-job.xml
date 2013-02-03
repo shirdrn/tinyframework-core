@@ -2,14 +2,7 @@
 <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
 
 <configuration>
-	<property>
-		<name>tiny.core.job.running.mode</name>
-		<value>0</value>
-		<description>
-			DEVELOPMENT(0) : development environment running mode
-			PRODUCTION(1)  : production environment running mode
-		</description>
-	</property>
+
 	<property>
 		<name>tiny.core.job.datasource.class</name>
 		<value>org.shirdrn.tinyframework.core.TextFileTinyDataSource</value>
