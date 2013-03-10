@@ -5,7 +5,7 @@ package org.shirdrn.tinyframework.core.conf;
  * Application configuration object, which contains 2 kinds:
  * <ol>
  * <li>{@link ReadableContext}:  global configuration, held by {@link JobConf} instance.</li>
- * <li>{@link WriteableContext}: local or temporary configuration.</li>
+ * <li>{@link WritableContext}: local or temporary configuration.</li>
  * </ol>
  * 
  * @author Yanjun
@@ -13,19 +13,19 @@ package org.shirdrn.tinyframework.core.conf;
 public class TaskConf extends Configured implements Cloneable {
 
 	private final JobConf jobConf;
-	private final WriteableContext context;
+	private final WritableContext context;
 	
 	public TaskConf() {
 		this(new Context(false));
 	}
 	
-	protected TaskConf(WriteableContext context) {
+	protected TaskConf(WritableContext context) {
 		super();
 		this.jobConf = new JobConf();
 		this.context = context;
 	}
 	
-	public WriteableContext getContext() {
+	public WritableContext getContext() {
 		return context;
 	}
 	

@@ -7,7 +7,7 @@ package org.shirdrn.tinyframework.core.conf;
  * <ol>
  * <li>{@link ReadableContext}: a global configuration object, which can not
  * modify its content in current application scope.</li>
- * <li>{@link WriteableContext}: a writeable configuration object, whose content
+ * <li>{@link WritableContext}: a writable configuration object, whose content
  * can be updated if necessary. </li>
  * </ol>
  * 
